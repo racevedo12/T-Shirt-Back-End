@@ -25,8 +25,8 @@ router.get("/:id", (req, res, next) =>
 // Create Route
 router.post("/", (req, res, next) =>
 {
-    Item.findById(req.params.id)
-        .then(items => res.json(items) )
+    Item.create(req.body)
+        .then(itemCreated => res.status(200).send(itemCreated) )
         .catch(next)
 });
 

@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 4000;
-const Item = require("./Models/Item");
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/' + 'items';
 
 // Mongoose configuration
@@ -16,6 +15,9 @@ mongoose.connection.once("open", () =>
 {
     console.log("Mongoose Connected");
 });
+
+// Importing Schemas
+const Item = require("./Models/Item");
 
 // Mockup Data
 const seedItems =
@@ -34,11 +36,16 @@ const seedItems =
 
 ];
 
+// Middleware configuration
+app.use( express.json() )
+app.use( express.urlencoded( { extended: true } ) );
+
+
 // Seeding data into db
 app.use("/seed-items", (req, res, next) =>
 {
-    Item.deleteMany()
-
+    Item.collection.deleteMany({});
+    
     Item.insertMany(seedItems)
         .then( (res) => console.log(res) )
         .catch(next)
