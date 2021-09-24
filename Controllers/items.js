@@ -37,4 +37,12 @@ router.put("/:id", (req, res, next) =>
         .catch(next)
 });
 
+// Delete route
+router.delete("/:id", (req, res, next) =>
+{
+    Item.findOneAndDelete( {_id: req.params.id} )
+        .then(deletedItem => res.status(200).send(deletedItem) )
+        .catch(next)
+});
+
 module.exports = router;
