@@ -14,4 +14,12 @@ router.get("/", (req, res, next) =>
         .catch(next)
 });
 
+// Show Route
+router.get("/:id", (req, res, next) =>
+{
+    Item.findById(req.params.id)
+        .then(items => res.json(items) )
+        .catch(next)
+});
+
 module.exports = router;
