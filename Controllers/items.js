@@ -18,6 +18,14 @@ router.get("/", (req, res, next) =>
 router.get("/:id", (req, res, next) =>
 {
     Item.findById(req.params.id)
+        .then(itemFound => res.status(200).send(itemFound) )
+        .catch(next)
+});
+
+// Create Route
+router.post("/", (req, res, next) =>
+{
+    Item.findById(req.params.id)
         .then(items => res.json(items) )
         .catch(next)
 });
