@@ -5,7 +5,6 @@ const router = express.Router();
 // Models
 const Item = require("../Models/Item");
 
-
 // Index Route
 router.get("/", (req, res, next) =>
 {
