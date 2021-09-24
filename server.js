@@ -1,3 +1,4 @@
+// Dependencies
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -16,6 +17,7 @@ mongoose.connection.once("open", () =>
     console.log("Mongoose Connected");
 });
 
+// Mockup Data
 const seedItems =
 [
     {
@@ -32,6 +34,7 @@ const seedItems =
 
 ];
 
+// Seeding data into db
 app.use("/seed-items", (req, res, next) =>
 {
     Item.deleteMany()
@@ -42,6 +45,10 @@ app.use("/seed-items", (req, res, next) =>
 
     res.send("Items seeded!!!");
 });
+
+// Controllers
+const itemsController = require("./Controllers/items");
+app.use("/items", itemsController);
 
 app.listen(PORT, () =>
 {
