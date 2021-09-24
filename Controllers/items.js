@@ -25,7 +25,15 @@ router.get("/:id", (req, res, next) =>
 router.post("/", (req, res, next) =>
 {
     Item.create(req.body)
-        .then(itemCreated => res.status(200).send(itemCreated) )
+        .then(itemCreated => res.status(201).send(itemCreated) )
+        .catch(next)
+});
+
+// Update route
+router.put("/:id", (req, res, next) =>
+{
+    Item.findOneAndUpdate( {_id: req.params.id}, req.body, {new: true} )
+        .then(updatedItem => res.status(201).send(updatedItem) )
         .catch(next)
 });
 
