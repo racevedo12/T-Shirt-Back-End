@@ -18,7 +18,6 @@ mongoose.connection.on("disconnected", () =>
 mongoose.connect("mongodb://localhost:27017/items", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true,
 });
 
 mongoose.connection.once("open", () => {
