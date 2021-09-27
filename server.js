@@ -35,10 +35,11 @@ const Order = require("./Models/Order");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Importing Seed data for items
+// Importing Seed data
 const seedItems = require("./Models/seeds.js");
+const seedOrderItems = require("./db/order-seeds.json");
 
-// Seeding data into db
+// Seeding data into items db
 app.use("/seed-items", (req, res, next) => {
   Item.collection.deleteMany({});
 
@@ -49,11 +50,23 @@ app.use("/seed-items", (req, res, next) => {
   res.send("Items seeded!!!");
 });
 
+// Seeding data into order db
+app.use("/seed-order", (req, res, next) => {
+  Order.collection.deleteMany({});
+
+  // Order.insertMany(seedOrderItems)
+  Order.updateOne( {} , {$set: {items: {seedOrderItems}}}, {upsert: true} )
+    .then((res) => console.log(res))
+    .catch(next);
+
+  res.send("Order items seeded!!!");
+});
+
 // Controllers
 const itemsController = require("./Controllers/items");
 app.use("/items", itemsController);
 const orderController = require("./Controllers/orders");
-app.use("/orders", orderController);
+app.use("/order", orderController);
 
 app.listen(PORT, () => {
   console.log(`✅ PORT: ${PORT} 🌟`);
