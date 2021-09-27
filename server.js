@@ -19,8 +19,9 @@ mongoose.connection.once("open", () =>
 
 // Importing Schemas
 const Item = require("./Models/Item");
+const Order = require("./Models/Order");
 
-// Mockup Data
+// Mockup Data For items
 const seedItems =
 [
     {
@@ -37,6 +38,39 @@ const seedItems =
 
 ];
 
+// Mockup Data For order
+const dummyOrderData =
+[
+    {
+        name: "Sofa",
+        description:
+            "Scandinavian Helsinki irure, airport Melbourne cillum dolore duis. Elegant elit smart, Asia-Pacific airport Nordic aute exclusive velit Beams uniforms ex Shinkansen. Ut wardrobe id, anim Winkreative non uniforms occaecat bespoke Helsinki.",
+        price: 100,
+    },
+
+    {
+        name: "Bicycle",
+        description:
+            "Intricate tempor laboris essential Fast Lane sint sophisticated Swiss bulletin eiusmod anim in. Airport soft power Comme des Garçons signature Winkreative nisi labore wardrobe, velit Marylebone proident dolore.",
+        price: 80,
+    },
+
+    {
+        name: "Office Chair",
+        description:
+            "Scandinavian Helsinki irure, airport Melbourne cillum dolore duis. Elegant elit smart, Asia-Pacific airport Nordic aute exclusive velit Beams uniforms ex Shinkansen. Ut wardrobe id, anim Winkreative non uniforms occaecat bespoke Helsinki.",
+        price: 35,
+
+    },
+
+    {
+        name: "6 Sets of Dishes and Cutlery",
+        description:
+            "K-pop ad handsome sleepy pintxos nulla Porter voluptate delightful consequat quality of life. Elegant tote bag ut exclusive finest Ginza dolor et Scandinavian. Boulevard in excepteur, exquisite Muji dolor boutique laborum Winkreative dolore laboris Fast Lane.",
+        price: 20,
+    },
+];
+
 // Middleware configuration
 app.use( express.json() )
 app.use( express.urlencoded( { extended: true } ) );
@@ -44,7 +78,7 @@ app.use( express.urlencoded( { extended: true } ) );
 // Cors
 app.use( cors() );
 
-// Seeding data into db
+// Seeding data into items db
 app.use("/seed-items", (req, res, next) =>
 {
     Item.collection.deleteMany({});
@@ -56,9 +90,82 @@ app.use("/seed-items", (req, res, next) =>
     res.send("Items seeded!!!");
 });
 
+// Seeding data into order db
+app.use("/seed-order", (req, res, next) =>
+{
+    Order.collection.deleteMany( {} );
+
+    dummyOrderData.forEach( (item) =>
+    {
+        Item.create(item)
+            .then(response => 
+            {
+                Order.updateOne( {name: "OrderList"} )
+                    .then(response => 
+                    {
+                        // response.push(item)
+                        console.log("Data added", response)
+                    })
+                    .catch(next)
+            })
+            .catch(next)
+    })
+
+    // console.log(allItemsIds)
+    // .then(response => 
+    //     {
+    //         Item.findById( response._id )
+    //             .then( response => 
+    //             {
+    //                 // console.log(response + "\n")
+    //                 allItems.push(response);
+    //                 Item.findByIdAndDelete(response._id)
+    //                     .then( response => console.log("Data deleted: " + response) )
+    //                     .catch(next)
+    //             })
+    //             .catch(next)
+    //     })
+    //     .catch(next)
+
+    // console.log(allItems)
+    // for(let item of dummyOrderData)
+    // {
+    //     Item.create(item)
+    //         .then(response => 
+    //         {
+    //             console.log(response)
+    //             // Item.findById( {_id: response._id} )
+    //             //     .then( response => 
+    //             //     {
+    //             //         console.log(response)
+    //             //         // allItems.push(response);
+    //             //         // Item.findByIdAndDelete(response._id)
+    //             //         //     .then( response => console.log("Data deleted: " + response) )
+    //             //         //     .catch(next)
+    //             //     })
+    //             //     .catch(next)
+    //         })
+    //         .catch(next)
+        
+    //     // console.log(allItems)
+    // }
+
+    
+    // Order.updateOne( {}, { $push: {$each: allItems} } )
+    //     .then(response => console.log(response) )
+    //     .catch(next)
+
+    res.send("Order items seeded!!!");
+});
+
+
 // Controllers
 const itemsController = require("./Controllers/items");
 app.use("/items", itemsController);
+
+const ordersController = require("./Controllers/orders");
+const { all } = require("./Controllers/items");
+app.use("/order", ordersController);
 
 app.listen(PORT, () =>
 {
