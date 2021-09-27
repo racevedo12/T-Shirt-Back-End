@@ -34,7 +34,7 @@ const seedItems = [
     name: "FillerItem",
     description: "First Item",
     price: "3",
-    image: "https://imgurgit bra.com/",
+    image: "https://imgur.com/",
   },
   {
     name: "1/10th Ounce American Gold Eagle",
