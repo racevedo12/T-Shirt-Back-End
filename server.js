@@ -60,6 +60,7 @@ const seedItems = [
     image: "https://imgur.com/1ZFMInU",
   },
 ];
+
 // Middleware configuration
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
