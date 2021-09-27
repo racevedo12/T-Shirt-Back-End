@@ -1,3 +1,4 @@
+const User = require("../models/User");
 /// Require the Job model
 const Item = require("../models/Item");
 // Require the data
@@ -6,7 +7,7 @@ const seedData = require("./seeds.json");
 // Delete any existing documents in the jobs collection
 Item.deleteMany()
   // Use insertMany and pass it the seed data
-  .then(() => Job.insertMany(seedData))
+  .then(() => Item.insertMany(seedData))
   // Log the successful results
   .then(console.log)
   // Log any errors if things didn't work

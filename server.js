@@ -15,7 +15,11 @@ mongoose.connection.on("disconnected", () =>
   console.log("mongoose is disconnected")
 );
 
-mongoose.connect("mongodb://localhost:27017/items", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/items", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
 
 mongoose.connection.once("open", () => {
   console.log("Mongoose Connected");
