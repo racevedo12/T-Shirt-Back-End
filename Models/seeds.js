@@ -111,3 +111,5 @@ const seedItems = [
       "https://www.rei.com/dam/content_team_080317_69661_hybrid_bikes_hero_lg.jpg",
   },
 ];
+
+module.exports = seedItems;
