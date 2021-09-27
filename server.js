@@ -4,8 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const PORT = process.env.PORT || 4000;
-const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/" + "items";
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/' + 'items';
 
 // Mongoose configuration
 mongoose.connection.on("error", (err) =>
@@ -47,12 +46,8 @@ app.use("/seed-items", (req, res, next) => {
     .then((res) => console.log(res))
     .catch(next);
 
-  res.send("Items seeded!!!");
-});
-
-// Seeding data into order db
-app.use("/seed-order", (req, res, next) => {
-  Order.collection.deleteMany({});
+// Cors
+app.use( cors() );
 
   // Order.insertMany(seedOrderItems)
   Order.updateOne( {} , {$set: {items: {seedOrderItems}}}, {upsert: true} )
