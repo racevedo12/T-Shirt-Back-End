@@ -44,6 +44,7 @@ app.use("/seed-items", (req, res, next) => {
 
   Item.insertMany(seedItems)
     .then((res) => console.log(res))
+    .then((res) => JSON(res))
     .catch(next);
 
   res.send("Items seeded!!!");
