@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Importing Seed data
-const seedItems = require("./Models/seeds.js");
+const seedItems = require("./db/item-seeds.json");
 const seedOrderItems = require("./db/order-seeds.json");
 
 // Seeding data into items db
@@ -46,6 +46,8 @@ app.use("/seed-items", (req, res, next) =>
   Item.insertMany(seedItems)
     .then((res) => console.log(res))
     .catch(next);
+
+  res.send("Items seeded!!!");
 
 });
 
