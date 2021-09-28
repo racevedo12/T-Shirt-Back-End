@@ -4,8 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const PORT = process.env.PORT || 4000;
-const MONGODB_URI =
-    process.env.MONGODB_URI || "mongodb://localhost:27017/" + "item-board";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/" + "item-board";
 
 // Mongoose configuration
 mongoose.connection.on("error", (err) =>
@@ -36,7 +35,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Importing Seed data
-
 const seedItems = require("./Models/seeds.js");
 
 // Seeding data into items db
@@ -44,16 +42,8 @@ app.use("/seed-items", (req, res, next) => {
     Item.collection.deleteMany({});
 
     Item.insertMany(seedItems)
-        .then((res) => console.log(res))
-        .catch(next);
-
-    // Cors
-    app.use(cors());
-
-  Item.insertMany(seedItems)
-    .then((res) => console.log(res))
-    .then((res) => JSON(res))
-    .catch(next);
+      .then((res) => console.log(res))
+      .catch(next);
 
     res.send("Items seeded!!!");
 });
