@@ -52,17 +52,15 @@ app.use("/seed-items", (req, res, next) =>
 // Seeding data into order db
 app.use("/seed-order", (req, res, next) =>
 {
-  Order.collection.deleteMany();
+  Order.collection.deleteMany({});
 
-  Order.find( {} )
-  // Order.findOneAndUpdate( [], {$push: seedOrderItems}, {new: true})
-  .then( (res) => console.log(res.values()) )
-  .catch(next);
+  Order.updateOne( {}, {$push: {items: {$each: seedOrderItems}} }, {upsert: true} )
+    .then( (res) => console.log(res) )
+    .catch(next);
 
   res.send("Order items seeded!!!");
 
 });
-
 
 // Controllers
 const itemsController = require("./Controllers/items");
