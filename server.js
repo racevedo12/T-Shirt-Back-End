@@ -50,7 +50,10 @@ app.use("/seed-items", (req, res, next) => {
     // Cors
     app.use(cors());
 
-    Order.create({ items: [] });
+  Item.insertMany(seedItems)
+    .then((res) => console.log(res))
+    .then((res) => JSON(res))
+    .catch(next);
 
     res.send("Items seeded!!!");
 });
