@@ -4,23 +4,24 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const PORT = process.env.PORT || 4000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/' + 'items';
+const MONGODB_URI =
+    process.env.MONGODB_URI || "mongodb://localhost:27017/" + "item-board";
 
 // Mongoose configuration
 mongoose.connection.on("error", (err) =>
-  console.log(err.message + " mongo is not running")
+    console.log(err.message + " mongo is not running")
 );
 mongoose.connection.on("disconnected", () =>
-  console.log("mongoose is disconnected")
+    console.log("mongoose is disconnected")
 );
 
-mongoose.connect("mongodb://localhost:27017/items", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 
 mongoose.connection.once("open", () => {
-  console.log("Mongoose Connected");
+    console.log("Mongoose Connected");
 });
 
 // Cors
@@ -35,33 +36,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Importing Seed data
-const seedItems = require("./db/item-seeds.json");
-const seedOrderItems = require("./db/order-seeds.json");
+
+const seedItems = require("./Models/seeds.js");
 
 // Seeding data into items db
-app.use("/seed-items", (req, res, next) => 
-{
-  Item.collection.deleteMany({});
+app.use("/seed-items", (req, res, next) => {
+    Item.collection.deleteMany({});
 
-  Item.insertMany(seedItems)
-    .then((res) => console.log(res))
-    .catch(next);
+    Item.insertMany(seedItems)
+        .then((res) => console.log(res))
+        .catch(next);
 
-  res.send("Items seeded!!!");
+    // Cors
+    app.use(cors());
 
-});
+    Order.create({ items: [] });
 
-// Seeding data into order db
-app.use("/seed-order", (req, res, next) =>
-{
-  Order.collection.deleteMany({});
-
-  Order.updateOne( {}, {$push: {items: {$each: seedOrderItems}} }, {upsert: true} )
-    .then( (res) => console.log(res) )
-    .catch(next);
-
-  res.send("Order items seeded!!!");
-
+    res.send("Items seeded!!!");
 });
 
 // Controllers
@@ -71,5 +62,5 @@ const orderController = require("./Controllers/orders");
 app.use("/order", orderController);
 
 app.listen(PORT, () => {
-  console.log(`✅ PORT: ${PORT} 🌟`);
+    console.log(`✅ PORT: ${PORT} 🌟`);
 });
