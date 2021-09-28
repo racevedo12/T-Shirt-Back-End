@@ -4,8 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const PORT = process.env.PORT || 4000;
-const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/" + "items";
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/' + 'items';
 
 // Mongoose configuration
 mongoose.connection.on("error", (err) =>
@@ -35,11 +34,13 @@ const Order = require("./Models/Order");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Importing Seed data for items
+// Importing Seed data
 const seedItems = require("./Models/seeds.js");
+const seedOrderItems = require("./db/order-seeds.json");
 
-// Seeding data into db
-app.use("/seed-items", (req, res, next) => {
+// Seeding data into items db
+app.use("/seed-items", (req, res, next) => 
+{
   Item.collection.deleteMany({});
 
   Item.insertMany(seedItems)
@@ -47,14 +48,26 @@ app.use("/seed-items", (req, res, next) => {
     .then((res) => JSON(res))
     .catch(next);
 
-  res.send("Items seeded!!!");
+});
+
+// Seeding data into order db
+app.use("/seed-order", (req, res, next) =>
+{
+  Order.collection.deleteMany({});
+
+  Order.updateOne( {}, {$push: {items: {$each: seedOrderItems}} }, {upsert: true} )
+    .then( (res) => console.log(res) )
+    .catch(next);
+
+  res.send("Order items seeded!!!");
+
 });
 
 // Controllers
 const itemsController = require("./Controllers/items");
 app.use("/items", itemsController);
 const orderController = require("./Controllers/orders");
-app.use("/orders", orderController);
+app.use("/order", orderController);
 
 app.listen(PORT, () => {
   console.log(`✅ PORT: ${PORT} 🌟`);
