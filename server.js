@@ -39,90 +39,28 @@ const seedItems = require("./Models/seeds.js");
 const seedOrderItems = require("./db/order-seeds.json");
 
 // Seeding data into items db
-app.use("/seed-items", (req, res, next) => {
+app.use("/seed-items", (req, res, next) => 
+{
   Item.collection.deleteMany({});
 
   Item.insertMany(seedItems)
     .then((res) => console.log(res))
     .catch(next);
 
-// Cors
-app.use( cors() );
-
-  // Order.insertMany(seedOrderItems)
-  Order.updateOne( {} , {$set: {items: {seedOrderItems}}}, {upsert: true} )
-    .then((res) => console.log(res))
-    .catch(next);
-
-  res.send("Order items seeded!!!");
 });
 
 // Seeding data into order db
 app.use("/seed-order", (req, res, next) =>
 {
-    Order.collection.deleteMany( {} );
+  Order.collection.deleteMany();
 
-    dummyOrderData.forEach( (item) =>
-    {
-        Item.create(item)
-            .then(response => 
-            {
-                Order.updateOne( {name: "OrderList"} )
-                    .then(response => 
-                    {
-                        // response.push(item)
-                        console.log("Data added", response)
-                    })
-                    .catch(next)
-            })
-            .catch(next)
-    })
+  Order.find( {} )
+  // Order.findOneAndUpdate( [], {$push: seedOrderItems}, {new: true})
+  .then( (res) => console.log(res.values()) )
+  .catch(next);
 
-    // console.log(allItemsIds)
-    // .then(response => 
-    //     {
-    //         Item.findById( response._id )
-    //             .then( response => 
-    //             {
-    //                 // console.log(response + "\n")
-    //                 allItems.push(response);
-    //                 Item.findByIdAndDelete(response._id)
-    //                     .then( response => console.log("Data deleted: " + response) )
-    //                     .catch(next)
-    //             })
-    //             .catch(next)
-    //     })
-    //     .catch(next)
+  res.send("Order items seeded!!!");
 
-    // console.log(allItems)
-    // for(let item of dummyOrderData)
-    // {
-    //     Item.create(item)
-    //         .then(response => 
-    //         {
-    //             console.log(response)
-    //             // Item.findById( {_id: response._id} )
-    //             //     .then( response => 
-    //             //     {
-    //             //         console.log(response)
-    //             //         // allItems.push(response);
-    //             //         // Item.findByIdAndDelete(response._id)
-    //             //         //     .then( response => console.log("Data deleted: " + response) )
-    //             //         //     .catch(next)
-    //             //     })
-    //             //     .catch(next)
-    //         })
-    //         .catch(next)
-        
-    //     // console.log(allItems)
-    // }
-
-    
-    // Order.updateOne( {}, { $push: {$each: allItems} } )
-    //     .then(response => console.log(response) )
-    //     .catch(next)
-
-    res.send("Order items seeded!!!");
 });
 
 
