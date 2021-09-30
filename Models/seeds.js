@@ -142,13 +142,6 @@ const seedItems = [
     image: "https://cf-assets-thredup.thredup.com/assets/304160226/large.jpg",
   },
   {
-    name: "kids slide",
-    description: "cute baby slide, so much fun",
-    price: "20",
-    image:
-      "https://lh3.googleusercontent.com/proxy/SBux9DFpcUyqoJZFuN_ZDXz8yhk5M2YvR689OSe7x7TW6YblGKeU403KG702YG7tSBmwkOH6ptNV_G3gusswAmestN2wJYYCuBULXKOfPw",
-  },
-  {
     name: "Halloween Decoration",
     description:
       " Want to Turn Your Home into a Haunted House? Our prop section is the perfect place to start, whether you're just starting to decorate or just need that last coffin to complete your scene.",
