@@ -45,6 +45,7 @@ app.use("/seed-items", (req, res, next) => {
       .then((res) => console.log(res))
       .catch(next);
 
+    Order.create({ items: [] });
     res.send("Items seeded!!!");
 });
 
