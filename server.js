@@ -49,11 +49,6 @@ app.use("/seed-items", (req, res, next) => {
     res.send("Items seeded!!!");
 });
 
-app.use("/", (req, res, next) =>
-{
-    res.status(200).send("T-Shirt API");
-});
-
 // Controllers
 const itemsController = require("./Controllers/items");
 app.use("/items", itemsController);
