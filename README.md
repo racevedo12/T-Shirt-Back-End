@@ -49,5 +49,11 @@ This is the Back-End API for the T-Shirt React App
   - Method: GET
     * Gets the cart with all the items that the user has added.
 
+## Front-End Documentation Link
+https://github.com/anfalfadhil/T-Shirt-Front-End
+
+## API Link
+https://t-shirt-back-end.herokuapp.com/items
+
 ## Contribution Guidelines
 Feel free to create an issue, or send an email.
